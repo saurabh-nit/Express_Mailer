@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title><%= title %></title>
+    <link rel='stylesheet' href='/stylesheets/style.css' />
+    <script src="https://code.jquery.com/jquery-2.2.4.min.js"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+
+  <style>
+       #b{
+            background-image:url(https://goo.gl/Iq1gIF);
+         }
+        #j{
+            opacity: 0.8;
+            /*filter: alpha(opacity=50);*/
+            background-color: #353a36;
+            color:white;
+        }
+  </style>
+  </head>
+  <body id="b">
+    <h1><%= title %></h1>
+    <div class="container">
+        <div class="jumbotron" id="j">
+          <form class="form-horizontal">
+            <div class="form-group"><h4>From :</h4>
+              <input type="text" class="form-control" id="from" placeholder="PLEASE DO NOT FILL HERE ANYTHING">
+            </div>
+            <div class="form-group"><h4>To :</h4>
+              <input type="text" class="form-control" id="to" placeholder="receiver@example.com">
+            </div>
+            <div class="form-group"><h4>Messege :</h4>
+             <textarea class="form-control" rows="4" id="msg" placeholder="Write something here.."></textarea>
+           </div>
+            <div class="form-group">
+              <div><button type="button" id="btn" class="btn btn-success">Send E-mail</button></div>
+            </div>
+          </form>
+        </div>
+    </div>
+
+<script>
+    function ValidateEmail(mail){
+      //alert(mail);
+       var mailformat = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
+       if(mail.match(mailformat)){
+          return true;
+       }
+       else{
+         alert("You have entered an invalid email address!");
+         $('#to').focus();
+         return false;
+      }
+    }
+</script>
+
+ <script>
+
+        $(document).ready(function() {
+          $('#btn').click(function (evt) {
+               evt.preventDefault();
+            $('#from').val("skmishra.nitdgp@gmail.com");
+            var str1 = $('#to').val();
+            var text = $('#msg').val();
+            if(str1==null || str1 == ''){
+              alert('Please provide To: E-mail');
+              $('#to').focus();
+              return false;
+            }
+            else
+             {
+
+              if(!ValidateEmail(str1)) {
+                return false;
+              };
+
+               $.ajax({
+               //  async: false,
+                   type : "POST",
+                    url : '/',
+                   data : { mail1 : str1, text:text },          // multiple data  in form of object are sent using ajax
+                success : function(result){
+                             alert(result);
+                             $('#to').val(null)
+                             $('#msg').val(null)
+
+                          }
+
+              });
+           }
+          return false;
+         });
+      });
+    </script>
+  </body>
+</html>
